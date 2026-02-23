@@ -1,0 +1,32 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { join } from 'path'
+import electron from 'vite-plugin-electron'
+import renderer from 'vite-plugin-electron-renderer'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+    plugins: [
+        react(),
+        electron([
+            {
+                // Main-Process entry file of the Electron App.
+                entry: 'electron/main.ts',
+                vite: {
+                    build: {
+                        rollupOptions: {
+                            external: [],
+                        },
+                    },
+                },
+            },
+        ]),
+        renderer(),
+    ],
+    resolve: {
+        alias: {
+            '@': join(__dirname, 'src')
+        }
+    },
+    base: './'
+})
